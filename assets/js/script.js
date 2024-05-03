@@ -28,6 +28,9 @@ const enviarData = (id , name , race , ki , description , image , maxKi , gender
         const namePage = doc.getElementById('name');
         namePage.textContent = name;
 
+        const racePage = doc.getElementById('race');
+        racePage.textContent = `Raza : ${race}`;
+
         const kiPage = doc.getElementById('ki');
         kiPage.textContent = `Ki : ${ki}`;
 
@@ -49,7 +52,7 @@ const enviarData = (id , name , race , ki , description , image , maxKi , gender
 }
 
 // Function to create digimon cards
-async function createDigimonCards() {
+const createDigimonCards = async() => {
     const personajesData = await fetchDragonBall();
     const personajesRow = document.getElementById('personajesRow');
 
