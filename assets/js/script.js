@@ -1,13 +1,55 @@
+
+
+
+const getCharacterByName = async(name='goku')=> {
+
+    console.log(name);
+    try{
+
+         const response = await fetch(`https://dragonball-api.com/api/characters?name=${name}`);
+         const data = await response.json();
+         //localStorage.setItem("personajes",JSON.stringify(data.items));
+         return data;
+
+     }catch(error){
+         console.log(`Erroraaaaaa: ${error}`);
+     }
+
+}
+
+let btnBuscar = document.getElementById("btnBuscar");
+let nombre = "";
+btnBuscar.addEventListener("click", (e)=> {
+    e.preventDefault();
+    nombre = document.getElementById("nombre").value;
+
+    if(nombre === ""){
+        return;
+    }
+
+    getCharacterByName(nombre)
+         .then((personaje)=> {
+             console.log(personaje);
+         })
+         .catch((error)=>{
+             console.log(`El error es: ${error}`);
+         })
+});
+
+
 // Function to fetch data from Digimon API
 const fetchDragonBall = async() => {
     try {
         const response = await fetch('https://dragonball-api.com/api/characters?page=1&limit=50');
         const data = await response.json();
+        localStorage.setItem("personajes",JSON.stringify(data.items));
         return data.items;
     } catch (error) {
         console.error('Error fetching Digimon data:', error);
     }
 }
+
+
 
 const enviarData = (id , name , race , ki , description , image , maxKi , gender) => {
     const rutaArchivoHTML = '../personaje.html';
