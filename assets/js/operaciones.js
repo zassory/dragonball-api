@@ -113,10 +113,6 @@ export const createCharacterCards = async (characters) => {
 
 export const createOneCharacterCard = async (character) => {
 
-
-    //Si es un caracter es object
-    console.log(character);
-    console.log(typeof(character));
     const personajesRow = document.getElementById('personajesRow');
      
     const { id, name, race, ki, description, image, maxKi, gender } = character;
@@ -171,9 +167,7 @@ export const createOneCharacterCard = async (character) => {
             divBody.appendChild(levelC);
             divBody.appendChild(btnVer);
 
-            personajesRow.appendChild(divRow);
-        
-    
+            personajesRow.appendChild(divRow);            
 }
 
 
@@ -208,11 +202,10 @@ export const loadOneCharacter = async (personaje) => {
     console.log(char);
     console.log(typeof(char));
 
-    if(char){
-        //const { name  }  = char;    
+    if(char){        
         createOneCharacterCard(char);
      }else{
-         console.log("No hay nada");
+         return;
      }
 
     
