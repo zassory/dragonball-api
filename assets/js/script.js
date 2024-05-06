@@ -2,8 +2,10 @@ import {
     loadInitialCharacters , 
     loadMoreCharacters ,
     loadOneCharacter,
-    getCharactersFetchByName ,
+    
 } from "./operaciones.js";
+
+import { getCharactersFetchByName } from './fetchs/getCharactersFetchByName.js';
 
 let isLoading = false;
 
