@@ -16,6 +16,19 @@ export const getCharactersFetch = async(page = 1, limit = 8) => {
     }
 }
 
+export const getCharactersFetchByName = async(name) => {
+    try{
+
+        const response = await fetch(`https://dragonball-api.com/api/characters?name=${name}`);
+        const data = await response.json();
+        return data;
+
+    }catch(error){
+        console.log(`Error al obtener los personajes: ${error}`);
+        return [];//Retorno un array vacio.
+    }
+}
+
 const enviarData = (id , name , race , ki , description , image , maxKi , gender) => {
     const rutaArchivoHTML = '../personaje.html';
     
@@ -58,15 +71,81 @@ const enviarData = (id , name , race , ki , description , image , maxKi , gender
    });
 }
 
-export const createCharacterCards = async (characters) => {
+export const createCharacterCards = async (characters) => {    
+
     const personajesRow = document.getElementById('personajesRow');
 
-    characters.forEach((character) => {
-        const { id, name, race, ki, description, image, maxKi, gender } = character;
+     characters.map((character) => {
+         const { id, name, race, ki, description, image, maxKi, gender } = character;
 
-        if (!loadedCharacters.includes(id)) {
-            loadedCharacters.push(id);
+         if (!loadedCharacters.includes(id)) {
+             loadedCharacters.push(id);
 
+             const divRow = document.createElement('div');
+             divRow.classList.add("col-xl-3");
+             divRow.classList.add("col-lg-3");
+             divRow.classList.add("col-md-3");
+             divRow.classList.add("col-sm-12");
+             divRow.classList.add("col-xs-12");
+
+             const card = document.createElement('div');
+             card.classList.add('card');
+             card.classList.add('mt-2');
+             card.classList.add('mb-2');
+
+             const imgCard = document.createElement('img');
+             imgCard.classList.add('card-img-top');
+             imgCard.classList.add('mt-2');
+             imgCard.classList.add('mx-auto');
+             imgCard.classList.add('w-75');
+             imgCard.src = image;
+
+             const divBody = document.createElement('div');
+             divBody.classList.add('card-body');
+             divBody.classList.add('text-center');
+             divBody.classList.add('mx-auto');
+
+             const tituloC = document.createElement('h5');
+             tituloC.classList.add('card-title');
+             tituloC.textContent = name;
+
+             const levelC = document.createElement('p');
+             levelC.classList.add('card-text');
+             levelC.textContent = ki;
+
+             const btnVer = document.createElement('button');
+             btnVer.classList.add('btn');
+             btnVer.classList.add('btn-primary');
+             btnVer.classList.add('text-center');
+             btnVer.classList.add('mx-auto');
+
+             btnVer.textContent = 'Ver detalles';
+             btnVer.addEventListener("click", () => enviarData(id, name, race, ki, description, image, maxKi, gender));
+
+             divRow.appendChild(card);
+             card.appendChild(imgCard);
+             card.appendChild(divBody);
+
+             divBody.appendChild(tituloC);
+             divBody.appendChild(levelC);
+             divBody.appendChild(btnVer);
+
+             personajesRow.appendChild(divRow);
+         }
+     });
+}
+
+export const createOneCharacterCard = async (character) => {
+
+
+    //Si es un caracter es object
+    console.log(character);
+    console.log(typeof(character));
+    const personajesRow = document.getElementById('personajesRow');
+     
+    const { id, name, race, ki, description, image, maxKi, gender } = character;
+
+      
             const divRow = document.createElement('div');
             divRow.classList.add("col-xl-3");
             divRow.classList.add("col-lg-3");
@@ -104,6 +183,7 @@ export const createCharacterCards = async (characters) => {
             btnVer.classList.add('btn-primary');
             btnVer.classList.add('text-center');
             btnVer.classList.add('mx-auto');
+
             btnVer.textContent = 'Ver detalles';
             btnVer.addEventListener("click", () => enviarData(id, name, race, ki, description, image, maxKi, gender));
 
@@ -116,8 +196,8 @@ export const createCharacterCards = async (characters) => {
             divBody.appendChild(btnVer);
 
             personajesRow.appendChild(divRow);
-        }
-    });
+        
+    
 }
 
 
@@ -141,3 +221,23 @@ export const loadInitialCharacters = async () => {
     const characters = await getCharactersFetch();
     createCharacterCards(characters);
 }
+
+export const loadOneCharacter = async (personaje) => {
+
+    let char = personaje[0];    
+                                
+    let personajesRow = document.getElementById("personajesRow");
+    personajesRow.innerHTML = '';    
+
+    console.log(char);
+    console.log(typeof(char));
+
+    if(char){
+        //const { name  }  = char;    
+        createOneCharacterCard(char);
+     }else{
+         console.log("No hay nada");
+     }
+
+    
+ }
