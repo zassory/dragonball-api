@@ -6,7 +6,7 @@ import {
 } from "./operaciones.js";
 
 import { getCharactersFetchByName } from './fetchs/getCharactersFetchByName.js';
-
+    
 let isLoading = false;
 
 let nombre = "";
